@@ -1,0 +1,43 @@
+.mainContainer{
+    display: flex;
+    flex-direction: column;
+}
+.header{
+    padding-left: 40px;
+    padding-right: 40px;
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    width: 100%;
+    height: 70px;
+    align-items: center;
+    justify-content: space-between;
+}
+.header h5{
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--main-black);
+}
+.header h5 span{
+    color: var(--main-green);
+    padding-left: 5px;
+}
+.header nav a{
+    text-decoration: none;
+    color: var(--main-black);
+}
+.mainSection{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-pink);
+    padding: 40px;
+    align-items: center;
+    justify-content: center;
+}
+.mainSection h1{
+    font-weight: 500;
+    font-size: 32px;
+}
+.mainSection img{
+    position: absolute;
+}

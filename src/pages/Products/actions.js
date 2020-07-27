@@ -1,0 +1,32 @@
+const categories = [
+    'Categoría',
+    'Abarrotes',
+    'Comida',
+    'Vinos y licores',
+    'Articulos deportivos',
+    'Computación y papeleria',
+    'Carnes',
+    'Farmacia',
+    'Consultorio médico',
+    'Llantera',
+    'Publicidad',
+    'Ropa y calzado',
+    'Ferretería',
+    'Refaccionaria',
+    'Construcción',
+    'Maquinaria pesada',
+    'Plomería',
+    'Herrería',
+    'Mecánica',
+    'Agricultura',
+    'Ganadería',
+    'Pesca y caza',
+    'Corte y confección',
+    'Artesanias',
+    'Productos tipicos',
+    'Celulares',
+];
+
+export{
+    categories,
+}
