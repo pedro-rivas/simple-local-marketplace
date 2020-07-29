@@ -14,7 +14,7 @@ const Nav = ( { active } ) => {
             <a href="/products/" className={active === 2 ? 'active' : 'inactive'}>
                 <i className="fas fa-store icon"></i>Productos
             </a>
-            <a href="/products/" className={active === 3 ? 'active' : 'inactive'}>
+            <a href="/account/" className={active === 3 ? 'active' : 'inactive'}>
                 <i className="fas fa-user-circle icon"></i>Cuenta
             </a>
             <a href="/signout/" className={active === 4 ? 'active' : 'inactive'}> 

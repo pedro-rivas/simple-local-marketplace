@@ -25,6 +25,7 @@ const categories = [
     'Artesanias',
     'Productos tipicos',
     'Celulares',
+    'Musica',
 ];
 
 export{

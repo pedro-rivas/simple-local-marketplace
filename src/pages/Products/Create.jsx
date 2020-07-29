@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 
 import { Alert, } from '@material-ui/lab/';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { categories, } from './actions';
 import { reducer, initialState, } from './reducer';
 import { database,  storage } from '../../utils/firebase';
@@ -8,13 +9,13 @@ import { database,  storage } from '../../utils/firebase';
 import '../../styles/layout.css';
 import Nav from '../Nav/Index';
 
-const phone = 3334022874;
 const height = window.innerHeight;
 
+const Create = () => {
 
-const page = 'Crear';
-
-const Home = () => {
+    const session = JSON.parse(sessionStorage.getItem("user"));
+    const user = session.phone; 
+    const page = 'Crear';
 
     useEffect(()=>{
 
@@ -23,7 +24,7 @@ const Home = () => {
     },[]);
 
     const [error, setError] = useState('');
-    const [progress, setProgress] = useState(0);
+    const [loading, setLoading] = useState(false);
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const Options = () => {
@@ -32,18 +33,16 @@ const Home = () => {
         ));
     }
 
+
     function _createProduct(){
         const file = document.getElementById('file').files[0];
-        let size = file.size/1000000;
+        const size = file.size/1000000;
         const date = new Date().valueOf();
         if(size < 3){
-            const storageUrl = storage.ref(`users/${phone}/`).child(`teul_${date}`);
+            setLoading(!loading);	
+            const storageUrl = storage.ref(`users/${user}/`).child(`teul_${date}`);
             const task = storageUrl.put(file);
-            setProgress(1);	
-            task.on('state_changed', function(snap){
-                let progress = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
-                setProgress(progress);
-            },(error) => {
+            task.on('state_changed', (snap)=> {},(error) => {
                 setError('error-post-img: '+error);
             },() => {
                 task.snapshot.ref.getDownloadURL().then(function(url) {
@@ -62,11 +61,11 @@ const Home = () => {
             description: state.description,
             category: state.category,
             url,
-            user: phone,
+            user: user,
             date: new Date().valueOf(),
             views: 0,
         }
-        let key = database.ref(`users/${phone}/products/`).push(product).key;
+        let key = database.ref(`users/${user}/products/`).push(product).key;
         let updates = {};
         updates[`products/${product.category}/${key}/`] = product;
         database.ref().update(updates)
@@ -93,14 +92,25 @@ const Home = () => {
         <div className="layout-container"  style={{height}}>
             <Nav active={2}/>
             <div className="panel-container"  style={{height}}>
-                <h2>{ `${ page }` }</h2>
+                <div style={{display:'flex', flexDirection:'row', alignItems:'center'}}>
+                    <span><i className="fas fa-arrow-left arrow-left" onClick={()=> window.location.href = '/products/'}></i></span>
+                    <h2>{ `${ page }` }</h2>
+                </div>
                 <div className="local-nav">
                    {state.state ? 
                     <button 
                         className="primary" 
                         onClick={()=> _createProduct()}
                     >
-                        {progress > 0  && progress < 100 ? `${progress}%` : 'Crear'}
+                        {loading
+                            ? 
+                            <CircularProgress 
+                            size={15}
+                            thickness={3}
+                            color={'inherit'}
+                            />
+                        : 'Crear'
+                        }
                     </button>
                    : 
                     <button disabled>Crear</button>
@@ -158,5 +168,5 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default Create;
 

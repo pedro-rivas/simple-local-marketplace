@@ -6,13 +6,16 @@ import { database, } from '../../utils/firebase';
 import Nav from '../Nav/Index';
 import Product from './components/Product';
 import Skeleton from './components/Skeleton';
+import { colors } from '@material-ui/core';
 
 const height = window.innerHeight;
 
 const page = 'Productos';
-const phone = 3334022874;
 
 const Home = () => {
+
+    const session = JSON.parse(sessionStorage.getItem("user"));
+    const user = session.phone;
 
     useEffect(()=>{
 
@@ -30,13 +33,13 @@ const Home = () => {
 
 
     function getPosts(){
-        database.ref(`users/${phone}/products/`).once('value',(snap)=>{
+        database.ref(`users/${user}/products/`).once('value',(snap)=>{
             if(snap.val()){
                 const result = snap.val();
                 let data = [];
                 for (const key in result) {
                     if (result.hasOwnProperty(key)) {
-                        data.push(result[key]);
+                        data.push({...result[key], key: key});
                     }
                 }
                 setProducts(data);
@@ -45,15 +48,6 @@ const Home = () => {
         });
     }
 
-    // const Products = () => products.length > 0 ? products.map((post, i) => (
-    //     <Product
-    //         key={i}
-    //         name={post.name}
-    //         price={post.price}
-    //         url={post.url}
-    //     />
-    // )) : null;
-
   return (
     <div className="layout-main-container" style={{height}}>
         <div className="layout-container"  style={{height}}>
@@ -61,7 +55,18 @@ const Home = () => {
             <div className="panel-container"  style={{height}}>
                 <h2>{ `${ page }` }</h2>
                 <div className="local-nav">
-                    <button className="primary" onClick={() => window.location.href = "/products/create/"}>Crear Producto</button>
+                    {products.length < session.limit ? 
+                        <button 
+                            className="primary" 
+                            onClick={() => window.location.href = "/products/create"}>
+                                Crear Producto
+                        </button>
+                    :
+                        <button disabled>
+                            Crear Producto
+                        </button>
+                    }
+                    
                 </div>
                 <ul>
                     <li>Nombre</li>
@@ -74,6 +79,7 @@ const Home = () => {
                         products.map((post, i) => {
                             return(
                                 <Product
+                                    onClick={() => {window.location.href = `/products/watch?url=${post.url}&key=${post.key}&name=${post.name}&price=${post.price}&category=${post.category}&description=${post.description}&token=${post.url.split('token')[1]}&user=${user}&views=${post.views}`}}
                                     key={i}
                                     name={post.name}
                                     price={post.price}
@@ -82,6 +88,7 @@ const Home = () => {
                         })
                     : <p>No hay productos todavía</p>
                     }
+                   
                 </div>
             </div>
         </div>

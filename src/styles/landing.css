@@ -41,3 +41,24 @@
 .mainSection img{
     position: absolute;
 }
+.create-account{
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    align-items: center;
+    justify-content: center;
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+.create-account p{
+    font-size: 18px;
+    margin-bottom: 40px;
+    font-weight: 500;
+}
+.create-account input {
+    min-width: 300px;
+    padding: 15px 10px 15px 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    border: 1px solid black;
+}

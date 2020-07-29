@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Product = ({ name, price, category, }) => {
+const Product = ({ name, price, category, onClick}) => {
 
     return(
-        <div className="product">
+        <div className="product" onClick={onClick}>
             <p className="product-name">{name}</p>
             <p className="product-price">{`$${price}`}</p>
             <span>
